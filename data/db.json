@@ -1,0 +1,91 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "login_id": "maumuser",
+      "login_password": "secret1",
+      "user_name": "마음이",
+      "nickname": "마음",
+      "birth_date": "19990101",
+      "email": "maum@example.com",
+      "mbti": "",
+      "user_description": "",
+      "access_token": "maumlog-token-1",
+      "created_at": "2026-03-26T07:44:27.304Z"
+    },
+    {
+      "user_id": 2,
+      "login_id": "asdf1234",
+      "login_password": "asdf1234!",
+      "user_name": "박찬희",
+      "nickname": "짜니",
+      "birth_date": "20040426",
+      "email": "qkrcksgml0426@gmail.com",
+      "mbti": "",
+      "user_description": "",
+      "access_token": "maumlog-token-2",
+      "created_at": "2026-03-26T07:48:08.860Z"
+    },
+    {
+      "user_id": 3,
+      "login_id": "fisocr",
+      "login_password": "fis!ocr!",
+      "user_name": "박찬희",
+      "nickname": "짜니",
+      "birth_date": "20040426",
+      "email": "asdf1234@naver.com",
+      "mbti": "",
+      "user_description": "",
+      "access_token": "maumlog-token-3",
+      "created_at": "2026-03-26T08:42:32.323Z"
+    }
+  ],
+  "diaries": [
+    {
+      "diary_idx": 1,
+      "user_id": 1,
+      "content": "오늘은 조금 피곤했지만 친구 덕분에 행복했어.",
+      "record_date": "2026-03-26",
+      "condition1": "",
+      "condition2": "",
+      "condition3": "",
+      "condition4": "",
+      "condition5": "",
+      "condition6": "",
+      "ai_model": "local-maumlog-analyzer",
+      "created_at": "2026-03-26T07:44:39.241Z",
+      "updated_at": "2026-03-26T07:44:39.289Z",
+      "condition1_response": "오늘 하루는 피로가 누적되어 몸과 마음이 쉬고 싶어한 하루였어요. 특히 \"오늘은 조금 피곤했지만 친구 덕분에 행복했어.\"라는 마음이 인상적이었어요.",
+      "condition2_response": "오늘의 노래 추천: 아이유 - 마음",
+      "condition3_response": "58/100",
+      "condition4_response": "TI",
+      "condition5_response": "많이 애쓴 흔적이 보여요. 오늘은 잘 버틴 것만으로도 충분하고, 쉬는 것도 중요한 선택이에요.",
+      "condition6_response": "#피곤 #휴식 #회복",
+      "ai_response": "오늘은 조금 피곤했지만 친구 덕분에 행복했어."
+    },
+    {
+      "diary_idx": 2,
+      "user_id": 2,
+      "content": "나 너무 슬픈일이 있었어\n",
+      "record_date": "2026-03-25T15:00:00.000Z",
+      "condition1": "#maum ENTP",
+      "condition2": "오늘 일기에 맞는 노래 추천해줘",
+      "condition3": "감정스코어줘",
+      "condition4": "감정 분석 코드 줘",
+      "condition5": "#maum 조언 줘",
+      "condition6": "핵심 키워드 해시태그 줘",
+      "ai_model": "gpt-4-turbo-2024-04-09",
+      "created_at": "2026-03-26T07:49:02.471Z",
+      "updated_at": "2026-03-26T07:49:02.471Z",
+      "condition1_response": "오늘 하루는 행복이 선명하게 남아 있는 하루였어요. 특히 \"나 너무 슬픈일이 있었어\"라는 마음이 인상적이었어요.",
+      "condition2_response": "오늘의 노래 추천: AKMU - 시간과 낙엽",
+      "condition3_response": "91/100",
+      "condition4_response": "HP",
+      "condition5_response": "마음이 꽤 따뜻해진 하루였네요. 좋은 감정은 나를 지탱해주는 기록이 되니 충분히 누려도 좋아요.",
+      "condition6_response": "#행복 #충만함 #따뜻함",
+      "ai_response": "나 너무 슬픈일이 있었어"
+    }
+  ],
+  "nextUserId": 4,
+  "nextDiaryId": 3
+}
