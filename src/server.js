@@ -157,6 +157,26 @@ function withoutPassword(user) {
   return safeUser;
 }
 
+function buildUserStats(db, user) {
+  if (!user) {
+    return {
+      diary_count: 0,
+      days_since_join: 0
+    };
+  }
+
+  const userDiaries = db.diaries.filter((entry) => entry.user_id === user.user_id);
+  const createdAt = new Date(user.created_at);
+  const now = new Date();
+  const diffMs = Math.max(now - createdAt, 0);
+  const daysSinceJoin = Math.max(1, Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1);
+
+  return {
+    diary_count: userDiaries.length,
+    days_since_join: daysSinceJoin
+  };
+}
+
 async function resolveCurrentUser(req) {
   const db = await readDb();
   const token = getTokenFromRequest(req);
@@ -280,7 +300,7 @@ app.post("/service1/user/login", async (req, res) => {
 });
 
 app.post("/service1/user/profile", async (req, res) => {
-  const { user } = await resolveCurrentUser(req);
+  const { db, user } = await resolveCurrentUser(req);
 
   if (!user) {
     return res.status(404).json({
@@ -291,7 +311,8 @@ app.post("/service1/user/profile", async (req, res) => {
 
   return res.json({
     success: true,
-    ...withoutPassword(user)
+    ...withoutPassword(user),
+    ...buildUserStats(db, user)
   });
 });
 
@@ -316,7 +337,85 @@ app.post("/service1/user/profile/update", async (req, res) => {
 
   return res.json({
     success: true,
-    ...withoutPassword(user)
+    ...withoutPassword(user),
+    ...buildUserStats(db, user)
+  });
+});
+
+app.post("/service1/user/password/update", async (req, res) => {
+  const { db, user } = await resolveCurrentUser(req);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "사용자를 찾을 수 없습니다."
+    });
+  }
+
+  const { current_password, new_password, new_password_confirm } = req.body;
+
+  if (!current_password || !new_password || !new_password_confirm) {
+    return res.status(400).json({
+      success: false,
+      message: "비밀번호 정보를 모두 입력해주세요."
+    });
+  }
+
+  if (user.login_password !== current_password) {
+    return res.status(400).json({
+      success: false,
+      message: "현재 비밀번호가 올바르지 않습니다."
+    });
+  }
+
+  if (new_password.length < 5) {
+    return res.status(400).json({
+      success: false,
+      message: "새 비밀번호는 5자 이상이어야 합니다."
+    });
+  }
+
+  if (new_password !== new_password_confirm) {
+    return res.status(400).json({
+      success: false,
+      message: "새 비밀번호 확인이 일치하지 않습니다."
+    });
+  }
+
+  user.login_password = new_password;
+  await writeDb(db);
+
+  return res.json({
+    success: true,
+    message: "비밀번호가 변경되었습니다."
+  });
+});
+
+app.post("/service1/user/delete", async (req, res) => {
+  const { db, user } = await resolveCurrentUser(req);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "사용자를 찾을 수 없습니다."
+    });
+  }
+
+  db.users = db.users.filter((entry) => entry.user_id !== user.user_id);
+  db.diaries = db.diaries.filter((entry) => entry.user_id !== user.user_id);
+
+  if (db.users.length === 0) {
+    db.nextUserId = 1;
+  }
+  if (db.diaries.length === 0) {
+    db.nextDiaryId = 1;
+  }
+
+  await writeDb(db);
+
+  return res.json({
+    success: true,
+    message: "계정이 삭제되었습니다."
   });
 });
 
